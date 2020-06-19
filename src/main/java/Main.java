@@ -18,23 +18,20 @@ public class Main {
         while (!compareImages(answerImage, currentImage) && problemsAnalyzed < 20) {
             problemsAnalyzed++;
             GenerateNewProblem();
-            robot.delay(randomDelayGenerator());
-            resetCursor();
-            CaptureScreenshot(false);
+            officialScreenshot(false);
         }
 
         if (compareImages(answerImage, currentImage)) {
             System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXMatch Found!XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
-            answerImage = null;
-            currentImage = null;
+            resetImages();
         }
         else {
             System.out.println("not found");
-            answerImage = null;
-            currentImage = null;
+            resetImages();
         }
 
     }
+
 
     public static void click(int x, int y) throws AWTException {
         Robot bot = new Robot();
@@ -71,19 +68,23 @@ public class Main {
         click(2430, 700);
     }
 
+    public static void resetImages() {
+        answerImage = null;
+        currentImage = null;
+    }
+
     public static BufferedImage cropImage(BufferedImage bufferedImage, int x, int y, int width, int height) {
         BufferedImage croppedImage = bufferedImage.getSubimage(x, y, width, height);
         return croppedImage;
     }
+
     public static boolean compareImages(BufferedImage imgA, BufferedImage imgB) {
         // The images must be the same size.
         if (imgA.getWidth() != imgB.getWidth() || imgA.getHeight() != imgB.getHeight()) {
             return false;
         }
-
         int width = imgA.getWidth();
         int height = imgA.getHeight();
-
         int lastRGB = 0;
         int concurrentRGBCount = 0;
         // Loop over every pixel.
@@ -105,11 +106,10 @@ public class Main {
                 }
             }
         }
-
         return true;
     }
 
-    public static void CaptureScreenshot(boolean isAnswer) throws AWTException, IOException {
+    public static void captureScreenshot(boolean isAnswer) throws AWTException, IOException {
         Rectangle screenRect = new Rectangle(Toolkit.getDefaultToolkit().getScreenSize());
         BufferedImage capture = new Robot().createScreenCapture(screenRect);
         if (isAnswer) {
@@ -131,8 +131,10 @@ public class Main {
     }
 
     public static void officialScreenshot(boolean isAnswer) throws AWTException, IOException {
+        Robot robot = new Robot();
+        robot.delay(randomDelayGenerator());
         resetCursor();
-        CaptureScreenshot(isAnswer);
+        captureScreenshot(isAnswer);
     }
 
     public static void initialBoot() throws AWTException, IOException {
@@ -141,7 +143,6 @@ public class Main {
         officialScreenshot(true);
         clickSimilarQuestion();
         //Initial current Screenshot to compare to answer
-        robot.delay(randomDelayGenerator());
         officialScreenshot(false);
     }
 
