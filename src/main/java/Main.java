@@ -10,28 +10,30 @@ import java.util.Random;
 public class Main {
     private static BufferedImage answerImage;
     private static BufferedImage currentImage;
+    private static int problemsAnalyzed = 0;
     public static void main(String[] args) throws IOException, AWTException {
-        int problemsAnalyzed = 0;
-        Robot robot = new Robot();
         initialBoot();
+        runLoop();
+        loopResultAnalyzer();
+    }
 
-        while (!compareImages(answerImage, currentImage) && problemsAnalyzed < 20) {
+    public static void runLoop() throws AWTException, IOException {
+        while (!compareImages(answerImage, currentImage) && problemsAnalyzed < 12) {
             problemsAnalyzed++;
             GenerateNewProblem();
             officialScreenshot(false);
         }
+    }
 
+    public static void loopResultAnalyzer() {
         if (compareImages(answerImage, currentImage)) {
             System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXMatch Found!XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
-            resetImages();
         }
         else {
             System.out.println("not found");
-            resetImages();
         }
-
+        resetImages();
     }
-
 
     public static void click(int x, int y) throws AWTException {
         Robot bot = new Robot();
