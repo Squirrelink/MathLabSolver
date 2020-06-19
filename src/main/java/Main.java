@@ -10,18 +10,36 @@ import java.util.Random;
 public class Main {
     private static BufferedImage answerImage;
     private static BufferedImage currentImage;
-    private static int problemsAnalyzed = 0;
+    private static int problemsAnalyzedInLoop = 0;
+    private static int totalProblemsAnalyzed = 0;
+    private static int currentLoop = 0;
+
+    static final int PROBS_PER_LOOP = 13;
+    static final int LOOP_COUNT = 3;
+    static final int LOOP_DELAY = 900;
+
     public static void main(String[] args) throws IOException, AWTException {
         initialBoot();
-        runLoop();
+        runEngine();
         loopResultAnalyzer();
     }
 
     public static void runLoop() throws AWTException, IOException {
-        while (!compareImages(answerImage, currentImage) && problemsAnalyzed < 12) {
-            problemsAnalyzed++;
+        while (!compareImages(answerImage, currentImage) && problemsAnalyzedInLoop < PROBS_PER_LOOP) {
+            problemsAnalyzedInLoop++;
+            totalProblemsAnalyzed++;
             GenerateNewProblem();
             officialScreenshot(false);
+        }
+    }
+
+    public static void runEngine() throws IOException, AWTException {
+        Robot robot = new Robot();
+        while (currentLoop < LOOP_COUNT) {
+            runLoop();
+            currentLoop++;
+            robot.delay(LOOP_DELAY);
+            problemsAnalyzedInLoop = 0;
         }
     }
 
@@ -149,8 +167,8 @@ public class Main {
     }
 
     public static int randomDelayGenerator() {
-        int min = 600;
-        int max = 830;
+        int min = 750;
+        int max = 900;
         //Generate random int value from 50 to 100
         int random_int = (int)(Math.random() * (max - min + 1) + min);
         return random_int;
