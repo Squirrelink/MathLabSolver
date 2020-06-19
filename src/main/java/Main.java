@@ -11,27 +11,15 @@ public class Main {
     private static BufferedImage answerImage;
     private static BufferedImage currentImage;
     public static void main(String[] args) throws IOException, AWTException {
-        int count = 0;
+        int problemsAnalyzed = 0;
         Robot robot = new Robot();
-        Scanner sc = new Scanner(System.in);
-//        System.out.println("Are You ready? Type yes");
-//        String answer = sc.nextLine();
-//
-        click(2430, 700);
-        CaptureScreenshot(true);
+        initialBoot();
 
-        clickSimilarQuestion();
-
-//        GenerateNewProblem();
-        robot.delay(randomDelayGenerator());
-        click(2430, 700);
-        CaptureScreenshot(false);
-
-        while (!compareImages(answerImage, currentImage) && count < 10) {
-            count++;
+        while (!compareImages(answerImage, currentImage) && problemsAnalyzed < 20) {
+            problemsAnalyzed++;
             GenerateNewProblem();
             robot.delay(randomDelayGenerator());
-            click(2430, 700);
+            resetCursor();
             CaptureScreenshot(false);
         }
 
@@ -79,6 +67,10 @@ public class Main {
         clickCloseHelpSolve();
     }
 
+    public static void resetCursor() throws AWTException {
+        click(2430, 700);
+    }
+
     public static BufferedImage cropImage(BufferedImage bufferedImage, int x, int y, int width, int height) {
         BufferedImage croppedImage = bufferedImage.getSubimage(x, y, width, height);
         return croppedImage;
@@ -120,7 +112,6 @@ public class Main {
     public static void CaptureScreenshot(boolean isAnswer) throws AWTException, IOException {
         Rectangle screenRect = new Rectangle(Toolkit.getDefaultToolkit().getScreenSize());
         BufferedImage capture = new Robot().createScreenCapture(screenRect);
-//        System.out.println("screenshot captured");
         if (isAnswer) {
             File outputfile = new File("answerScreenshot.jpg");
             ImageIO.write(capture, "jpg", outputfile);
@@ -138,6 +129,22 @@ public class Main {
         }
 
     }
+
+    public static void officialScreenshot(boolean isAnswer) throws AWTException, IOException {
+        resetCursor();
+        CaptureScreenshot(isAnswer);
+    }
+
+    public static void initialBoot() throws AWTException, IOException {
+        Robot robot = new Robot();
+        // Initial Screenshot to compare generate problems
+        officialScreenshot(true);
+        clickSimilarQuestion();
+        //Initial current Screenshot to compare to answer
+        robot.delay(randomDelayGenerator());
+        officialScreenshot(false);
+    }
+
     public static int randomDelayGenerator() {
         int min = 600;
         int max = 830;
