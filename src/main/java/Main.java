@@ -22,6 +22,7 @@ public class Main extends JFrame {
 
     public static void main(String[] args) throws IOException, AWTException {
         mainGUI = new GUI();
+        //Manual Mode
 //        initialBoot();
 //        runEngine();
 //        loopResultAnalyzer();
@@ -181,5 +182,9 @@ public class Main extends JFrame {
         //Generate random int value from 50 to 100
         int random_int = (int)(Math.random() * (max - min + 1) + min);
         return random_int;
+    }
+
+    public static int getProblemsAnalyzedInLoop() {
+        return problemsAnalyzedInLoop;
     }
 }
