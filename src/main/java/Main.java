@@ -54,6 +54,7 @@ public class Main extends JFrame {
             System.out.println("not found");
         }
         resetImages();
+        resetEngine();
     }
 
     public static void click(int x, int y) throws AWTException {
@@ -94,6 +95,11 @@ public class Main extends JFrame {
     public static void resetImages() {
         answerImage = null;
         currentImage = null;
+    }
+
+    public static void resetEngine() {
+        problemsAnalyzedInLoop = 0;
+        currentLoop = 0;
     }
 
     public static BufferedImage cropImage(BufferedImage bufferedImage, int x, int y, int width, int height) {
