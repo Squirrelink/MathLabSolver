@@ -1,4 +1,5 @@
 import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.InputEvent;
 import java.awt.image.BufferedImage;
@@ -7,21 +8,23 @@ import java.io.IOException;
 import java.awt.image.PixelGrabber;
 import java.util.Scanner;
 import java.util.Random;
-public class Main {
+public class Main extends JFrame {
     private static BufferedImage answerImage;
     private static BufferedImage currentImage;
     private static int problemsAnalyzedInLoop = 0;
     private static int totalProblemsAnalyzed = 0;
     private static int currentLoop = 0;
 
-    static final int PROBS_PER_LOOP = 13;
-    static final int LOOP_COUNT = 3;
+    static final int PROBS_PER_LOOP = 5;
+    static final int LOOP_COUNT = 1;
     static final int LOOP_DELAY = 900;
+    private static GUI mainGUI;
 
     public static void main(String[] args) throws IOException, AWTException {
-        initialBoot();
-        runEngine();
-        loopResultAnalyzer();
+        mainGUI = new GUI();
+//        initialBoot();
+//        runEngine();
+//        loopResultAnalyzer();
     }
 
     public static void runLoop() throws AWTException, IOException {
