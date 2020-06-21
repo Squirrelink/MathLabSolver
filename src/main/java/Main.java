@@ -15,8 +15,8 @@ public class Main extends JFrame {
     private static int totalProblemsAnalyzed = 0;
     private static int currentLoop = 0;
 
-    static final int PROBS_PER_LOOP = 5;
-    static final int LOOP_COUNT = 1;
+    static final int PROBS_PER_LOOP = 20;
+    static final int LOOP_COUNT = 2;
     static final int LOOP_DELAY = 900;
     private static GUI mainGUI;
 
@@ -177,8 +177,8 @@ public class Main extends JFrame {
     }
 
     public static int randomDelayGenerator() {
-        int min = 750;
-        int max = 900;
+        int min = 900;
+        int max = 1250;
         //Generate random int value from 50 to 100
         int random_int = (int)(Math.random() * (max - min + 1) + min);
         return random_int;

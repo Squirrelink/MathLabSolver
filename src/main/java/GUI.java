@@ -12,7 +12,6 @@ public class GUI implements ActionListener {
         frame = new JFrame();
         JButton button = new JButton("Click me!");
         button.addActionListener(this);
-
         label = new JLabel("Total Number of Analyzed Problems: 0" );
         panel = new JPanel();
         panel.add(button);
